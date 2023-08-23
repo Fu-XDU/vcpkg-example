@@ -1,0 +1,16 @@
+{
+  "name": "vcpkgtest",
+  "version-string": "0.0.1",
+  "description": "vcpkg test",
+  "dependencies": [
+  	{
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    },
+    "cryptopp"
+  ]
+}

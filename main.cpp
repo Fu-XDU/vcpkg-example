@@ -2,17 +2,19 @@
 // Created by root on 23-8-22.
 //
 
-#include <iostream>
 #include <cryptopp/eccrypto.h>
 #include <cryptopp/osrng.h>
 #include <cryptopp/hex.h>
 #include <cryptopp/oids.h>
+#include <co/log.h>
 
 void printPrivateKey(const CryptoPP::ECDSA<CryptoPP::ECP, CryptoPP::SHA256>::PrivateKey &privateKey);
 
 void printPublicKey(const CryptoPP::ECDSA<CryptoPP::ECP, CryptoPP::SHA256>::PublicKey &publicKey);
 
 int main() {
+    FLG_cout = true;
+
     CryptoPP::AutoSeededRandomPool rng;
 
     // 生成ECDSA密钥对
@@ -36,7 +38,7 @@ void printPrivateKey(const CryptoPP::ECDSA<CryptoPP::ECP, CryptoPP::SHA256>::Pri
     privateKey.Save(privateKeyEncoder);
     privateKeyEncoder.MessageEnd();
 
-    std::cout << "Private Key (hex): 0x" << privateKeyStr << std::endl;
+    LOG << "Private Key (hex): 0x" << privateKeyStr;
 }
 
 void printPublicKey(const CryptoPP::ECDSA<CryptoPP::ECP, CryptoPP::SHA256>::PublicKey &publicKey) {
@@ -46,6 +48,6 @@ void printPublicKey(const CryptoPP::ECDSA<CryptoPP::ECP, CryptoPP::SHA256>::Publ
     publicKey.Save(publicKeyEncoder);
     publicKeyEncoder.MessageEnd();
 
-    std::cout << "Public Key (hex): 0x" << publicKeyStr << std::endl;
+    LOG << "Public Key (hex): 0x" << publicKeyStr;
 }
 

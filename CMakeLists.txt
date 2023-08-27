@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.14)
 
 set(CMAKE_CXX_STANDARD 14)
 
-if(NOT DEFINED URL_BASE)
+if (NOT DEFINED URL_BASE)
     set(URL_BASE "github.com")
-endif()
+endif ()
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
@@ -12,15 +12,26 @@ set(VERSION "3.4.0")
 set(VERSION_SUFFIX "")
 
 # vcpkg init
-if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+if (NOT DEFINED CMAKE_TOOLCHAIN_FILE)
     find_package(Git REQUIRED)
     execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive -- vcpkg WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
             CACHE STRING "Vcpkg toolchain file")
-endif()
+endif ()
 
 project(vcpkg_learn)
 
 find_package(cryptopp CONFIG REQUIRED)
+
+include(ProjectCoost)
+
+# hide linker warnings on OS X
+# issue: https://github.com/Microsoft/vcpkg/issues/4497
+IF (CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    set(other_flags "${other_flags} -frtti -fvisibility-inlines-hidden")
+    set(other_flags "${other_flags} -fvisibility=hidden")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${other_flags}")
+ENDIF ()
+
 add_executable(vcpkg_learn main.cpp)
-target_link_libraries(vcpkg_learn PRIVATE cryptopp::cryptopp)
+target_link_libraries(vcpkg_learn PRIVATE cryptopp::cryptopp coost::co)

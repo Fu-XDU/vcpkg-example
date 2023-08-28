@@ -1,11 +1,11 @@
 include(FetchContent)
 
-set(PACKAGE_NAME coost)
+set(PACKAGE_NAME vcpkg)
 
 FetchContent_Declare(
         ${PACKAGE_NAME}
-        GIT_REPOSITORY "https://${URL_BASE}/idealvin/coost.git"
-        GIT_TAG "v3.0.0"
+        GIT_REPOSITORY "https://${URL_BASE}/microsoft/vcpkg.git"
+        GIT_TAG "2023.08.09"
         SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/deps/src/${PACKAGE_NAME}
 )
 
